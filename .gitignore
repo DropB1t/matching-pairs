@@ -12,6 +12,34 @@ target/
 *.iml
 *.ipr
 
+### Java, Maven ###
+*.class
+*.jar
+*.war
+*.ear
+*.log
+*.out
+*.idx
+*.gz
+*.zip
+*.7z
+*.tar
+*.tar.gz
+
+# Maven specific
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+mvnw
+mvnw.cmd
+
 ### Eclipse ###
 .apt_generated
 .classpath

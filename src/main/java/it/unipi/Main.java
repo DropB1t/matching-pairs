@@ -1,45 +1,54 @@
 package it.unipi;
 
+import it.unipi.utils.Player;
+import it.unipi.utils.GameState;
+
 import javax.swing.*;
 import java.util.Locale;
 
 public class Main {
+    private static int N_PAIRS = 4;
 
     public static void main(String[] args) {
         Locale.setDefault(Locale.ENGLISH);
         // Use SwingUtilities.invokeLater to safely execute Swing-related code
         SwingUtilities.invokeLater(() -> {
-            String name = JOptionPane.showInputDialog(null, "Enter your username:", "Input username", JOptionPane.QUESTION_MESSAGE);
-            if (name == null) {
-                JOptionPane.showMessageDialog(null, "No username entered, exiting...", "Error", JOptionPane.ERROR_MESSAGE);
+
+            /*
+            int N_PLAYERS = Utils.getIntInput("Enter the number of players:");
+            if (N_PLAYERS == -1) {
+                JOptionPane.showMessageDialog(null, "Cancel button pressed, exiting...", "Exiting", JOptionPane.INFORMATION_MESSAGE);
                 System.exit(0);
             }
 
-            int N_PAIRS;
-            while (true) {
-                try {
-                    String input = JOptionPane.showInputDialog(null, "Enter the number of pairs:", "Input number", JOptionPane.QUESTION_MESSAGE);
-                    if (input == null) {
-                        JOptionPane.showMessageDialog(null, "Cancel button pressed, exiting...", "Exiting", JOptionPane.INFORMATION_MESSAGE);
-                        System.exit(0);
+            Player[] players = new Player[N_PLAYERS];
+            for (int i = 0; i < N_PLAYERS; i++) {
+                String name;
+                while (true) {
+                    name = JOptionPane.showInputDialog(null, "Enter player " + (i + 1) + " username:", "Input username", JOptionPane.QUESTION_MESSAGE);
+                    if (name != null && !name.isBlank()) {
+                        break;
                     }
-                    N_PAIRS = Integer.parseInt(input);
-                    break; // Exit the loop if input is valid
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "Invalid number entered, try again.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Please enter a valid username...", "Error", JOptionPane.ERROR_MESSAGE);
                 }
+                System.out.println("New player named: " + name);
+                Player player = new Player(name);
+                players[i] = player;
             }
 
-            System.out.println("Name entered: " + name);
+            N_PAIRS = Utils.getIntInput("Enter the number of pairs:");
+            if (N_PAIRS == -1) {
+                JOptionPane.showMessageDialog(null, "Cancel button pressed, exiting...", "Exiting", JOptionPane.INFORMATION_MESSAGE);
+                System.exit(0);
+            }
             System.out.println("Pairs: " + N_PAIRS + " Cards: " + N_PAIRS * 2);
+            */
+
+            Player[] players = {new Player("Yuriy")};
 
             // Instantiate the Board class
-            Board board = new Board();
-            // Make the window visible
-            board.setVisible(true);
-            // Position board JFrame at the center of monitor
-            board.setLocationRelativeTo(null);
-
+            GameState gameState = new GameState(players, N_PAIRS);
+            new Board(gameState);
         });
     }
 

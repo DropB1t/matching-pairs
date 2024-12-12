@@ -1,4 +1,4 @@
-package it.unipi;
+package it.unipi.utils;
 
 public class Player {
     private final String name;

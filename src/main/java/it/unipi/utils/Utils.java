@@ -1,11 +1,36 @@
 package it.unipi.utils;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Utils {
+    public static final java.awt.Insets DEFAULT_INSETS = new java.awt.Insets(10, 10, 10, 10);
 
-    public static int getRandomInt(int max) {
-        return (int) (Math.random() * max);
+    public static GridBagConstraints createDefaultGridBagConstraints() {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = DEFAULT_INSETS; // Use the constant for layout insets
+        return gbc;
+    }
+
+    // Generic helper to update GridBagConstraints with new values
+    public static GridBagConstraints updateGbc(GridBagConstraints gbc, int gridx, int gridy, int gridwidth, int gridheight,
+                                         int fill, double weightx, double weighty) {
+        gbc.gridx = gridx;
+        gbc.gridy = gridy;
+        gbc.gridwidth = gridwidth;
+        gbc.gridheight = gridheight;
+        gbc.fill = fill;
+        gbc.weightx = weightx;
+        gbc.weighty = weighty;
+        return gbc;
+    }
+
+    public static GridBagConstraints updateGbc(GridBagConstraints gbc, int gridx, int gridy,
+                                         int gridwidth, int gridheight, int fill,
+                                         double weightx, double weighty, int anchor) {
+        updateGbc(gbc, gridx, gridy, gridwidth, gridheight, fill, weightx, weighty);
+        gbc.anchor = anchor;
+        return gbc;
     }
 
     /**
@@ -19,7 +44,7 @@ public class Utils {
         int numberOfPairs;
         while (true) {
             try {
-                String input = JOptionPane.showInputDialog(message, JOptionPane.QUESTION_MESSAGE);
+                String input = JOptionPane.showInputDialog(null, message, "Number of pairs", JOptionPane.QUESTION_MESSAGE);
                 if (input == null) {
                     //JOptionPane.showMessageDialog(null, "Cancel button pressed, exiting...", "Exiting", JOptionPane.INFORMATION_MESSAGE);
                     return -1;

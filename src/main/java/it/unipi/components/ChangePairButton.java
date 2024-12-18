@@ -4,18 +4,16 @@ import it.unipi.utils.Utils;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 
 public class ChangePairButton extends javax.swing.JButton {
-    private final PropertyChangeSupport nPairsChangeSupport;
     int nPairs;
 
-    public ChangePairButton() {
+    public ChangePairButton(int nPairs) {
         super("Change Pairs");
-        this.nPairs = 0;
+        setFocusable(false);
+
+        this.nPairs = nPairs;
         this.addActionListener(new buttonActionListener());
-        nPairsChangeSupport = new PropertyChangeSupport(this);
     }
 
     private int getPairs() {
@@ -25,15 +23,7 @@ public class ChangePairButton extends javax.swing.JButton {
     private void setPairs(int nPairs) {
         int oldNPairs = this.nPairs;
         this.nPairs = nPairs;
-        nPairsChangeSupport.firePropertyChange("nPairs", nPairs, oldNPairs);
-    }
-
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        nPairsChangeSupport.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        nPairsChangeSupport.removePropertyChangeListener(listener);
+        this.firePropertyChange("nPairs", oldNPairs, nPairs);
     }
 
     private class buttonActionListener implements ActionListener{

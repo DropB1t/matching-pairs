@@ -1,6 +1,7 @@
 package it.unipi;
 
 import it.unipi.utils.Player;
+import it.unipi.utils.Utils;
 import it.unipi.utils.GameState;
 
 import javax.swing.*;
@@ -11,10 +12,9 @@ public class Main {
 
     public static void main(String[] args) {
         Locale.setDefault(Locale.ENGLISH);
-        // Use SwingUtilities.invokeLater to safely execute Swing-related code
+        // SwingUtilities.invokeLater for a safely execution of Swing-related code
         SwingUtilities.invokeLater(() -> {
-
-            /*
+            
             int N_PLAYERS = Utils.getIntInput("Enter the number of players:");
             if (N_PLAYERS == -1) {
                 JOptionPane.showMessageDialog(null, "Cancel button pressed, exiting...", "Exiting", JOptionPane.INFORMATION_MESSAGE);
@@ -31,7 +31,6 @@ public class Main {
                     }
                     JOptionPane.showMessageDialog(null, "Please enter a valid username...", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                System.out.println("New player named: " + name);
                 Player player = new Player(name);
                 players[i] = player;
             }
@@ -41,11 +40,10 @@ public class Main {
                 JOptionPane.showMessageDialog(null, "Cancel button pressed, exiting...", "Exiting", JOptionPane.INFORMATION_MESSAGE);
                 System.exit(0);
             }
-            System.out.println("Pairs: " + N_PAIRS + " Cards: " + N_PAIRS * 2);
-            */
-
-            Player[] players = {new Player("Yuriy")};
-
+            
+            // Test with 2 players
+            //Player[] players = {new Player("Yuriy"), new Player("John")};
+            
             // Instantiate the Board class
             GameState gameState = new GameState(players, N_PAIRS);
             new Board(gameState);

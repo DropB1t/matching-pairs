@@ -11,6 +11,10 @@ public class GameState {
         this.N_CARDS = N_PAIRS * 2;
     }
 
+    public Player[] getPlayers() {
+        return players;
+    }
+    
     public Player getPlayer(int index) {
         return players[index];
     }
@@ -19,12 +23,13 @@ public class GameState {
         return N_PAIRS;
     }
 
+    public int getN_CARDS() {
+        return N_CARDS;
+    }
+
     public void setN_PAIRS(int n_pairs) {
         this.N_PAIRS = n_pairs;
         this.N_CARDS = n_pairs * 2;
     }
 
-    public int getN_CARDS() {
-        return N_CARDS;
-    }
 }

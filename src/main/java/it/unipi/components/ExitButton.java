@@ -1,8 +1,16 @@
 package it.unipi.components;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
-public class ExitButton extends javax.swing.JButton {
+/**
+ * The ExitButton class represents a button that exits the application when pressed.
+ * It displays a confirmation dialog before exiting.
+ */
+public class ExitButton extends JButton {
+    /**
+     * Constructs a new ExitButton with the label "Exit".
+     */
     public ExitButton() {
         super("Exit");
         setFocusable(false);

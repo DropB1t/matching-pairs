@@ -12,11 +12,20 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyVetoException;
 
+/**
+ * The Card class represents a card in the matching pairs game.
+ * It extends JButton and implements PropertyChangeListener and MouseListener.
+ */
 public class Card extends JButton implements PropertyChangeListener, MouseListener {
 
     private int value;
     private CardState state;
 
+    /**
+     * Constructs a new Card with the specified value.
+     *
+     * @param value the value of the card
+     */
     public Card(int value) {
         super("Cards");
         setPreferredSize(new Dimension(100, 120)); // Set the size of a card
@@ -32,14 +41,30 @@ public class Card extends JButton implements PropertyChangeListener, MouseListen
         this.addMouseListener(this);
     }
 
+    /**
+     * Constructs a new Card with a default value of 0.
+     */
     public Card() {
         this(0);
     }
 
+    /**
+     * Returns the current state of the card.
+     *
+     * @return the current state of the card
+     */
     public CardState getState(){
         return this.state;
     }
 
+    /**
+     * Sets the state of the card and updates its appearance accordingly.
+     * This method fires a vetoable change event before updating the state.
+     * If the change is vetoed, the state will not be updated.
+     * The state is a bound and constrained property.
+     *
+     * @param cardState the new state of the card
+     */
     public void setState(CardState cardState) {
         try {
             this.fireVetoableChange("stateChange", this.state, cardState);
@@ -78,10 +103,20 @@ public class Card extends JButton implements PropertyChangeListener, MouseListen
         setBackground(new Color(255, 102, 102));
     }
 
+    /**
+     * Returns the value of the card.
+     *
+     * @return the value of the card
+     */
     public int getValue() {
         return value;
     }
 
+    /**
+     * Sets the value of the card.
+     *
+     * @param value the new value of the card
+     */
     public void setValue(int value) {
         this.value = value;
     }
@@ -99,12 +134,8 @@ public class Card extends JButton implements PropertyChangeListener, MouseListen
                 boolean pairMatched = (boolean) evt.getNewValue();
                 if (pairMatched) {
                     this.setState(CardState.EXCLUDED);
-                    //this.state = CardState.EXCLUDED;
-                    //setExcluded();
                 } else {
                     this.setState(CardState.FACE_DOWN);
-                    //this.state = CardState.FACE_DOWN;
-                    //setFaceDown();
                 }
             }
         }

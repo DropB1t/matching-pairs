@@ -14,6 +14,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * The Board class represents the main game board for the Matching Pairs game.
+ * It extends JFrame and implements PropertyChangeListener and ActionListener to handle game events and actions.
+ */
 public class Board extends JFrame implements PropertyChangeListener, ActionListener {
     private final GameState gameState;
 
@@ -32,6 +36,11 @@ public class Board extends JFrame implements PropertyChangeListener, ActionListe
     private List<Card> cards;
     private List<Integer> cardValues;
 
+    /**
+     * Constructs a new Board with the specified game state.
+     *
+     * @param gameState the current game state
+     */
     public Board(GameState gameState) {
         this.gameState = gameState;
 
@@ -51,6 +60,9 @@ public class Board extends JFrame implements PropertyChangeListener, ActionListe
         newGame();
     }
 
+    /**
+     * Initializes the components (beans) used in the game.
+     */
     private void initBeans() {
         changePairsButton = new ChangePairButton(gameState.getN_PAIRS());
         challengeLabel = new ChallengeLabel(gameState.getN_PAIRS());
@@ -59,16 +71,18 @@ public class Board extends JFrame implements PropertyChangeListener, ActionListe
 
         controllerLabel = new ControllerLabel(gameState.getPlayers(), gameState.getN_PAIRS());
         counterLabel = new CounterLabel(gameState.getPlayers());
-
     }
 
+    /**
+     * Sets up listeners for the buttons and other components.
+     */
     private void setupButtonListeners() {
         changePairsButton.addPropertyChangeListener("pairsEvent", this);
         changePairsButton.addPropertyChangeListener("pairsEvent", controllerLabel);
         changePairsButton.addPropertyChangeListener("pairsEvent", counterLabel);
         changePairsButton.addPropertyChangeListener("pairsEvent", challengeLabel);
         controllerLabel.addPropertyChangeListener("nextPlayer", counterLabel);
-        controllerLabel.addPropertyChangeListener("roundEndEvent",challengeLabel);
+        controllerLabel.addPropertyChangeListener("roundEndEvent", challengeLabel);
         shuffleButton.addActionListener(this);
         shuffleButton.addActionListener(counterLabel);
         shuffleButton.addActionListener(controllerLabel);
@@ -76,6 +90,11 @@ public class Board extends JFrame implements PropertyChangeListener, ActionListe
         controllerLabel.addRoundEndActionListener(counterLabel);
     }
 
+    /**
+     * Handles property change events to update the game state and UI.
+     *
+     * @param evt the property change event
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if ("pairsEvent".equals(evt.getPropertyName())) {
@@ -85,6 +104,11 @@ public class Board extends JFrame implements PropertyChangeListener, ActionListe
         }
     }
 
+    /**
+     * Handles action events to shuffle cards or start a new round.
+     *
+     * @param e the action event
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if ("shuffleAction".equals(e.getActionCommand()) || "roundEndAction".equals(e.getActionCommand())) {
@@ -93,6 +117,9 @@ public class Board extends JFrame implements PropertyChangeListener, ActionListe
         }
     }
 
+    /**
+     * Starts a new game by initializing the cards and updating the UI.
+     */
     private void newGame() {
         if (cards != null) {
             for (Card card : cards) {
@@ -114,8 +141,6 @@ public class Board extends JFrame implements PropertyChangeListener, ActionListe
         layout.setHgap(10);
         layout.setVgap(10);
 
-        //cardsPanel.invalidate(); // Invalidate the panel
-
         for (Card card : cards) {
             cardsPanel.add(card);
             this.addPropertyChangeListener("shuffleEvent", card);
@@ -126,12 +151,15 @@ public class Board extends JFrame implements PropertyChangeListener, ActionListe
         }
         shuffleCards();
 
-        cardsPanel.revalidate(); // Revalidate the panel
-        cardsPanel.repaint(); // Repaint the panel
+        cardsPanel.revalidate();
+        cardsPanel.repaint();
     }
 
+    /**
+     * Shuffles the cards and updates their values.
+     */
     private void shuffleCards() {
-        List<Integer> newCardValues = new Random().ints(1, gameState.getN_CARDS()*2)
+        List<Integer> newCardValues = new Random().ints(1, gameState.getN_CARDS() * 2)
                             .distinct()
                             .limit(gameState.getN_PAIRS())
                             .flatMap(i -> Arrays.stream(new int[]{i, i}))
@@ -140,7 +168,7 @@ public class Board extends JFrame implements PropertyChangeListener, ActionListe
         Collections.shuffle(newCardValues, new Random());
 
         PropertyChangeListener[] shuffleListeners = this.getPropertyChangeListeners("shuffleEvent");
-        if(shuffleListeners.length != 0) {
+        if (shuffleListeners.length != 0) {
             for (int i = 0; i < gameState.getN_CARDS(); i++) {
                 shuffleListeners[i].propertyChange(new PropertyChangeEvent(this, "shuffleEvent", cardValues.get(i), newCardValues.get(i)));
             }
@@ -149,12 +177,20 @@ public class Board extends JFrame implements PropertyChangeListener, ActionListe
         cardValues = newCardValues;
     }
 
+    /**
+     * Sets up the UI components and layout.
+     */
     private void setupUI() {
         add(createLabelsPanel(), BorderLayout.NORTH);
         add(createCardsPanel(), BorderLayout.CENTER);
-        add(createControlButtons(), BorderLayout.SOUTH); // Add panel to the Board JFrame with BorderLayout.SOUTH
+        add(createControlButtons(), BorderLayout.SOUTH);
     }
 
+    /**
+     * Creates the panel for displaying labels.
+     *
+     * @return the labels panel
+     */
     private JPanel createLabelsPanel() {
         labelsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
         labelsPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -168,12 +204,22 @@ public class Board extends JFrame implements PropertyChangeListener, ActionListe
         return labelsPanel;
     }
 
+    /**
+     * Creates the panel for displaying cards.
+     *
+     * @return the cards panel
+     */
     private JPanel createCardsPanel() {
         cardsPanel = new JPanel(new GridLayout());
         cardsPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         return cardsPanel;
     }
 
+    /**
+     * Creates the panel for control buttons.
+     *
+     * @return the control buttons panel
+     */
     private JPanel createControlButtons() {
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
@@ -181,7 +227,7 @@ public class Board extends JFrame implements PropertyChangeListener, ActionListe
         buttonPanel.add(changePairsButton);
         buttonPanel.add(Box.createHorizontalStrut(10));
         buttonPanel.add(shuffleButton);
-        buttonPanel.add(Box.createHorizontalGlue()); // Add flexible space to push the next component to the right
+        buttonPanel.add(Box.createHorizontalGlue());
         buttonPanel.add(exitButton);
         return buttonPanel;
     }
